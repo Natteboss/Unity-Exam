@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
-            /////////////// INFORMATION ///////////////
+/////////////// INFORMATION ///////////////
 // This script automatically adds a Rigidbody2D, CapsuleCollider2D and CircleCollider2D component in the inspector.
 // The Rigidbody2D component should (probably) have some constraints: Freeze Rotation Z
 // The Circle Collider 2D should be set to "is trigger", resized and moved to a proper position for ground check.
@@ -33,6 +34,11 @@ public class PlatformerMovement : MonoBehaviour
     private bool isGrounded;
 
     [SerializeField] private Animator animator;
+
+    private Vector2 startPos;
+    private int health;
+    [SerializeField] private TMPro.TextMeshProUGUI healthText;
+    private float invulnerabilityTime;
     
     void Awake()
     {
@@ -43,6 +49,9 @@ public class PlatformerMovement : MonoBehaviour
         
         // Set gravity scale to 0 so player won't "fall" 
         rb.gravityScale = 0;
+        
+        startPos = transform.position;
+        health = 3;
 
         animator = GetComponent<Animator>();
     }
@@ -88,6 +97,15 @@ public class PlatformerMovement : MonoBehaviour
             else if (moveInput.x < -0.01f)
                 spriteRenderer.flipX = true;
         }
+
+        if (health <= 0)
+        {
+            health = 3;
+        }
+        
+        healthText.text = "Health: " + health;
+        if (invulnerabilityTime > 0)
+            invulnerabilityTime -= Time.deltaTime;
     }
 
     private void FixedUpdate()
@@ -187,5 +205,22 @@ public class PlatformerMovement : MonoBehaviour
             jumpReleased = true;
             jumpInput = false;
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Bounds"))
+        {
+            Reset();
+        }
+    }
+
+
+    private void Reset()
+    {
+        transform.position = startPos;
+        if (!(invulnerabilityTime <= 0)) return;
+        invulnerabilityTime = 1f;
+        health--;
     }
 }

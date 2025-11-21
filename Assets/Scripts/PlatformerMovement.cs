@@ -52,7 +52,7 @@ public class PlatformerMovement : MonoBehaviour
         rb.gravityScale = 0;
         
         startPos = transform.position;
-        health = 1;
+        health = 3;
 
         animator = GetComponent<Animator>();
     }
@@ -99,16 +99,19 @@ public class PlatformerMovement : MonoBehaviour
             else if (moveInput.x < -0.01f)
                 spriteRenderer.flipX = true;
         }
-
+        
         if (health <= 0)
         {
-            health = 1;
+            ResetPosition();
+            health = 3;
         }
         
         healthText.text = "Health: " + health;
         coinText.text = "Coins: " + CoinManager.CoinsCollected;
         if (invulnerabilityTime > 0)
+        {
             invulnerabilityTime -= Time.deltaTime;
+        }
     }
 
     private void FixedUpdate()
@@ -214,16 +217,26 @@ public class PlatformerMovement : MonoBehaviour
     {
         if (other.CompareTag("Bounds"))
         {
-            Reset();
+            ResetPosition();
+        }
+
+        if (other.CompareTag("Enemy"))
+        {
+            TakeDamage();
         }
     }
 
 
-    private void Reset()
+    private void ResetPosition()
     {
         transform.position = startPos;
+        
+    }
+
+    private void TakeDamage()
+    {
         if (!(invulnerabilityTime <= 0)) return;
-        invulnerabilityTime = 1f;
+        invulnerabilityTime = 1.5f;
         health--;
     }
 }

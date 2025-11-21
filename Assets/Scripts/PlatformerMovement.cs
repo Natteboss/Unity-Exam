@@ -51,7 +51,7 @@ public class PlatformerMovement : MonoBehaviour
         rb.gravityScale = 0;
         
         startPos = transform.position;
-        health = 3;
+        health = 1;
 
         animator = GetComponent<Animator>();
     }
@@ -100,7 +100,7 @@ public class PlatformerMovement : MonoBehaviour
 
         if (health <= 0)
         {
-            health = 3;
+            health = 1;
         }
         
         healthText.text = "Health: " + health;

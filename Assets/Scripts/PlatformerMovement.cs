@@ -112,6 +112,9 @@ public class PlatformerMovement : MonoBehaviour
         {
             invulnerabilityTime -= Time.deltaTime;
         }
+        
+        if (Input.GetKeyDown("escape"))
+            Application.Quit();
     }
 
     private void FixedUpdate()

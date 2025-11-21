@@ -8,9 +8,9 @@ public class CoinScript : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            AudioSource.PlayClipAtPoint(pickupSound, other.transform.position);
-            CoinManager.CoinsCollected += 0.5f;
+            AudioSource.PlayClipAtPoint(pickupSound, transform.position);
             Destroy(gameObject);
+            CoinManager.CoinsCollected += 1f;
         }
     }
 }

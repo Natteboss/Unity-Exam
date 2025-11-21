@@ -38,6 +38,7 @@ public class PlatformerMovement : MonoBehaviour
     private Vector2 startPos;
     private int health;
     [SerializeField] private TMPro.TextMeshProUGUI healthText;
+    [SerializeField] private TMPro.TextMeshProUGUI coinText;
     private float invulnerabilityTime;
     
     void Awake()
@@ -105,6 +106,7 @@ public class PlatformerMovement : MonoBehaviour
         }
         
         healthText.text = "Health: " + health;
+        coinText.text = "Coins: " + CoinManager.CoinsCollected;
         if (invulnerabilityTime > 0)
             invulnerabilityTime -= Time.deltaTime;
     }

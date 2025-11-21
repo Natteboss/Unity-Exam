@@ -85,7 +85,7 @@ public class PlatformerMovement : MonoBehaviour
         {
             jumpReleased = false;
             // Has landed, play landing sound and trigger landing animation
-            landingParticles.Play();
+            Instantiate(landingParticles, new Vector3(transform.position.x, transform.position.y - 0.2f, transform.position.z), Quaternion.identity);
         }
         wasGrounded = isGrounded;
         
